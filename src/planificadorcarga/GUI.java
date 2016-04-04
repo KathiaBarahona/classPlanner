@@ -121,15 +121,19 @@ public class GUI extends javax.swing.JFrame {
             teacherSchedule = new int[teachers.size()][9];
             studentSchedule = new int[students.size()][9];
             roomSchedule = new int[9][classRoomNumber];
-            studentAverage = new int[students.size()];
+            studentAverage = new double[students.size()];
             classes = e.getClasses();
+             long time1 = System.nanoTime();
             organizeCTS();
 
             fillSchedule();//cache for schedules of teachers
             sortClasses(0, classes.size() - 1);
             getPlanningDynamic();
             calculateAverages();
+            System.out.println("Tiempo de Ejecucion: " + (System.nanoTime() - time1) * 0.000000001 + " segundos");
             e.writeBook(classes, students, studentAverage);
+ 
+            
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "No ha seleccionado ningun archivo");
@@ -172,16 +176,21 @@ public class GUI extends javax.swing.JFrame {
         int index1 = left, index2 = right;
         int middle = (left + right) / 2;
         int scheduleDisp = getHoursAvailable(middle);
+        int studentDisp = getStudentsAvailable(middle);
         while (index1 <= index2) {
             int index1S = getHoursAvailable(index1);
+            int index1SQ = getStudentsAvailable(index1);
+            int index2SQ = getStudentsAvailable(index2);
             int index2S = getHoursAvailable(index2);
-            while (index1S < scheduleDisp) {
+            while (index1S < scheduleDisp && index1SQ > studentDisp) {
                 index1++;
                 index1S = getHoursAvailable(index1);
+                index1SQ = getStudentsAvailable(index1);
             }
-            while (index2S > scheduleDisp) {
+            while (index2S > scheduleDisp && index2SQ < studentDisp) {
                 index2--;
                 index2S = getHoursAvailable(index2);
+                index2SQ = getStudentsAvailable(index2);
             }
             if (index1 <= index2) {
                 Class_UNITEC temp = new Class_UNITEC();
@@ -215,7 +224,13 @@ public class GUI extends javax.swing.JFrame {
         }
         return quantity;
     }
-
+    public int getStudentsAvailable(int classIndex){
+        int quantity = 0;
+        for(int i = 0 ; i < students_classes.get(classIndex).size();i++){
+            quantity += students_classes.get(classIndex).size();
+        }
+        return quantity;
+    }
     public void fillSchedule() {
         for (int i = 0; i < teachers.size(); i++) {
             ArrayList<String> hours = teachers.get(i).getHours();
@@ -244,10 +259,10 @@ public class GUI extends javax.swing.JFrame {
                         break;
 
                     case "05:10":
-                        teacherSchedule[i][6] = 1;
+                        teacherSchedule[i][7] = 1;
                         break;
                     case "06:30":
-                        teacherSchedule[i][6] = 1;
+                        teacherSchedule[i][8] = 1;
                         break;
 
                 }
@@ -284,6 +299,7 @@ public class GUI extends javax.swing.JFrame {
                 ArrayList<String> hours = teachers.get(indexT).getHours();
                 for (int k = 0; k < hours.size(); k++) {
                     int hourIndex = getHourIndex(hours.get(k));
+  
                     boolean isAvailable = teacherSchedule[indexT][hourIndex] == 1;
                     int tempNC = 0;
                     int tempQ = 0;
@@ -295,9 +311,9 @@ public class GUI extends javax.swing.JFrame {
                         }
                            
                     }
-
+                   
                     if (freeRoom != -1 && isAvailable) {
-
+                         
                         for (int l = 0; l < students_classes.get(i).size(); l++) {
                             int indexS = students.indexOf(students_classes.get(i).get(l));
                             if (studentSchedule[indexS][hourIndex] == 1) {
@@ -420,10 +436,10 @@ public class GUI extends javax.swing.JFrame {
                 break;
 
             case "05:10":
-                hourIndex = 6;
+                hourIndex = 7;
                 break;
             case "06:30":
-                hourIndex = 6;
+                hourIndex = 8;
                 break;
         }
         return hourIndex;
@@ -463,14 +479,28 @@ public class GUI extends javax.swing.JFrame {
     public void calculateAverages() {
          
         for (int i = 0; i < students.size(); i++) {
-            int class_quantity = 0;
+            double class_quantity = 0;
             for(int j = 0 ; j < classes.size() && class_quantity < 5;j++){
                 if(classes.get(j).getStudents().indexOf(students.get(i)) > -1){
                      class_quantity++;
                       
                 }
             }
+            double tempQ = class_quantity;
+            double class_count = 0;
 
+            for(int j = 0; j < 9; j++){
+                if(j != 8){
+                    if(studentSchedule[i][j] == 1 )
+                          class_count++;
+                    if(studentSchedule[i][j] == 1 && studentSchedule[i][j+1] == 0 && class_count < tempQ){
+                      
+                        class_quantity -= 0.5;
+                    }
+                  
+                }
+            }
+     
             studentAverage[i] = class_quantity;
         }
     }
@@ -485,7 +515,7 @@ public class GUI extends javax.swing.JFrame {
     int[][] teacherSchedule;
     int[][] studentSchedule;
     int[][] roomSchedule;
-    int[] studentAverage;
+    double[] studentAverage;
     int classRoomNumber = 0;
 
     public static void main(String args[]) {
