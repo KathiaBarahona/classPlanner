@@ -117,7 +117,7 @@ public class Student {
     }
     @Override
     public String toString(){
-        return name+ " " + last_name;
+        return "Ver Clases";
     }
 
 }

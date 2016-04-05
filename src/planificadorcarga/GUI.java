@@ -1,11 +1,20 @@
 package planificadorcarga;
 
 import excelIO.excelIO;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.swing.text.TableView.TableRow;
 
 /**
  *
@@ -29,18 +38,37 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableClasses = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableStudents = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/planificadorcarga/uniteclogo_172x84nueva.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         jLabel1.setText("Planificador de Carga Académica");
 
-        jToggleButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1.setName("classRooms"); // NOI18N
+
+        jLabel3.setText("Número de Aulas");
+
+        jToggleButton1.setBackground(new java.awt.Color(204, 255, 204));
         jToggleButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jToggleButton1.setForeground(new java.awt.Color(0, 153, 153));
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/planificadorcarga/import.PNG"))); // NOI18N
@@ -52,51 +80,137 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/planificadorcarga/uniteclogo_172x84nueva.png"))); // NOI18N
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(161, 161, 161)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(363, 363, 363))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(285, 285, 285)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(369, 369, 369)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(132, 132, 132)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(138, Short.MAX_VALUE))
+        );
 
-        jLabel3.setText("Número de Aulas");
+        jTabbedPane2.addTab("Home", jPanel1);
 
-        jTextField1.setName("classRooms"); // NOI18N
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel4.setText("Horario");
+
+        tableClasses.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "Clase", "Hora", "Aula", "Maestro"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableClasses);
+
+        jLabel5.setText("Estudiantes");
+
+        tableStudents.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Carrera", "Clases", "Satisfacción"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tableStudents);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(194, 194, 194)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 231, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel5)
+                .addGap(44, 44, 44)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Result", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(252, 252, 252)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(240, 240, 240)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(224, Short.MAX_VALUE))
+            .addComponent(jTabbedPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108))
+            .addComponent(jTabbedPane2)
         );
 
         pack();
@@ -123,7 +237,7 @@ public class GUI extends javax.swing.JFrame {
             roomSchedule = new int[9][classRoomNumber];
             studentAverage = new double[students.size()];
             classes = e.getClasses();
-             long time1 = System.nanoTime();
+            long time1 = System.nanoTime();
             organizeCTS();
 
             fillSchedule();//cache for schedules of teachers
@@ -131,14 +245,52 @@ public class GUI extends javax.swing.JFrame {
             getPlanningDynamic();
             calculateAverages();
             System.out.println("Tiempo de Ejecucion: " + (System.nanoTime() - time1) * 0.000000001 + " segundos");
+            addResultTables();
             e.writeBook(classes, students, studentAverage);
- 
-            
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "No ha seleccionado ningun archivo");
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+    public void addResultTables() {
+        Object[] data = new Object[5];
+
+        DefaultTableModel model = new DefaultTableModel();
+        String header[] = new String[]{"Codigo", "Clase", "Hora",
+            "Aula", "Maestro"};
+        model.setColumnIdentifiers(header);
+        tableClasses.setModel(model);
+        for (int i = 0; i < classes.size(); i++) {
+            if (!"".equals(classes.get(i).getHour()) && classes.get(i).getTeacher() != null && !"".equals(classes.get(i).getClassRoom()) && !classes.get(i).getStudents().isEmpty()) {
+                data[0] = i + 1;
+                data[1] = classes.get(i).getName();
+                data[2] = classes.get(i).getHour();
+                data[3] = classes.get(i).getClassRoom();
+                data[4] = classes.get(i).getTeacher().getName() + " " + classes.get(i).getTeacher().getLast_name();
+                model.addRow(data);
+            }
+
+        }
+        DefaultTableModel studentModel = new DefaultTableModel();
+        header = new String[]{"Nombre", "Carrera", "Clases", "Satisfaccion"};
+        studentModel.setColumnIdentifiers(header);
+
+        tableStudents.setModel(studentModel);
+        TableColumn showColumn = tableStudents.getColumnModel().getColumn(2);
+        buttonCell b = new buttonCell(classes);
+
+        showColumn.setCellEditor(b);
+        for (int i = 0; i < students.size(); i++) {
+            Object[] studentInfo = new Object[4];
+            studentInfo[0] = students.get(i).getName() + " " + students.get(i).getLast_name();
+            studentInfo[1] = students.get(i).getCareer();
+            studentInfo[2] = students.get(i);
+            studentInfo[3] = studentAverage[i];
+            studentModel.addRow(studentInfo);
+        }
+
+    }
+
     public void organizeCTS() {
         int size = classes.size();
         int i, j;
@@ -224,13 +376,15 @@ public class GUI extends javax.swing.JFrame {
         }
         return quantity;
     }
-    public int getStudentsAvailable(int classIndex){
+
+    public int getStudentsAvailable(int classIndex) {
         int quantity = 0;
-        for(int i = 0 ; i < students_classes.get(classIndex).size();i++){
+        for (int i = 0; i < students_classes.get(classIndex).size(); i++) {
             quantity += students_classes.get(classIndex).size();
         }
         return quantity;
     }
+
     public void fillSchedule() {
         for (int i = 0; i < teachers.size(); i++) {
             ArrayList<String> hours = teachers.get(i).getHours();
@@ -299,21 +453,21 @@ public class GUI extends javax.swing.JFrame {
                 ArrayList<String> hours = teachers.get(indexT).getHours();
                 for (int k = 0; k < hours.size(); k++) {
                     int hourIndex = getHourIndex(hours.get(k));
-  
+
                     boolean isAvailable = teacherSchedule[indexT][hourIndex] == 1;
                     int tempNC = 0;
                     int tempQ = 0;
                     int freeRoom = -1;
-                    for(int m = 0 ; m < classRoomNumber; m++){
-                        if(roomSchedule[hourIndex][m] == 0){
+                    for (int m = 0; m < classRoomNumber; m++) {
+                        if (roomSchedule[hourIndex][m] == 0) {
                             freeRoom = m;
                             break;
                         }
-                           
+
                     }
-                   
+
                     if (freeRoom != -1 && isAvailable) {
-                         
+
                         for (int l = 0; l < students_classes.get(i).size(); l++) {
                             int indexS = students.indexOf(students_classes.get(i).get(l));
                             if (studentSchedule[indexS][hourIndex] == 1) {
@@ -444,63 +598,61 @@ public class GUI extends javax.swing.JFrame {
         }
         return hourIndex;
     }
-    
-    public int notContinuedQuantity(int hourIndex){
+
+    public int notContinuedQuantity(int hourIndex) {
         int q = 0;
-        for(int i = 0 ; i < students.size(); i++){
+        for (int i = 0; i < students.size(); i++) {
             boolean flag = true;
-            for(int j = 0 ; j < 9; j++){
-                if(studentSchedule[i][j] == 1){
+            for (int j = 0; j < 9; j++) {
+                if (studentSchedule[i][j] == 1) {
                     flag = false;
                     break;
                 }
             }
-            if(!flag){ 
-                if(hourIndex == 0){
-                    if(studentSchedule[i][hourIndex +1] == 0){
+            if (!flag) {
+                if (hourIndex == 0) {
+                    if (studentSchedule[i][hourIndex + 1] == 0) {
                         q++;
                     }
-                }else{
-                    if(hourIndex == 8){
-                        if(studentSchedule[i][hourIndex -1] == 0){
-                            q++;
-                        }
-                    }else{
-                        if(studentSchedule[i][hourIndex+1] == 0 && studentSchedule[i][hourIndex -1] == 0){
-                            q++;
-                        }
+                } else if (hourIndex == 8) {
+                    if (studentSchedule[i][hourIndex - 1] == 0) {
+                        q++;
                     }
+                } else if (studentSchedule[i][hourIndex + 1] == 0 && studentSchedule[i][hourIndex - 1] == 0) {
+                    q++;
                 }
-                
+
             }
         }
         return q;
     }
+
     public void calculateAverages() {
-         
+
         for (int i = 0; i < students.size(); i++) {
             double class_quantity = 0;
-            for(int j = 0 ; j < classes.size() && class_quantity < 5;j++){
-                if(classes.get(j).getStudents().indexOf(students.get(i)) > -1){
-                     class_quantity++;
-                      
+            for (int j = 0; j < classes.size() && class_quantity < 5; j++) {
+                if (classes.get(j).getStudents().indexOf(students.get(i)) > -1) {
+                    class_quantity++;
+
                 }
             }
             double tempQ = class_quantity;
             double class_count = 0;
 
-            for(int j = 0; j < 9; j++){
-                if(j != 8){
-                    if(studentSchedule[i][j] == 1 )
-                          class_count++;
-                    if(studentSchedule[i][j] == 1 && studentSchedule[i][j+1] == 0 && class_count < tempQ){
-                      
+            for (int j = 0; j < 9; j++) {
+                if (j != 8) {
+                    if (studentSchedule[i][j] == 1) {
+                        class_count++;
+                    }
+                    if (studentSchedule[i][j] == 1 && studentSchedule[i][j + 1] == 0 && class_count < tempQ) {
+
                         class_quantity -= 0.5;
                     }
-                  
+
                 }
             }
-     
+
             studentAverage[i] = class_quantity;
         }
     }
@@ -555,7 +707,16 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTable tableClasses;
+    private javax.swing.JTable tableStudents;
     // End of variables declaration//GEN-END:variables
 }
